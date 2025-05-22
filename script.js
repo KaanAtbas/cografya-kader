@@ -138,7 +138,8 @@ const countries = [
 
 // Oyun durumu
 let gameState = {
-    remainingTries: 3
+    remainingTries: 3,
+    selectedCountries: [] // Seçilen ülkeleri saklamak için dizi
 };
 
 // Toplam dünya nüfusu
@@ -177,7 +178,7 @@ function updateGameState() {
 // Butona tıklama olayı ekleme
 restartButton.addEventListener('click', () => {
     if (gameState.remainingTries <= 0) {
-        alert('Tüm haklarınız bitti! Sayfayı yenileyerek yeni bir oyuna başlayabilirsiniz.');
+        alert('Tüm haklarınız bitti! Sonuçlarınızı görebilirsiniz.');
         return;
     }
 
@@ -189,6 +190,9 @@ restartButton.addEventListener('click', () => {
 
     const selectedCountry = weightedRandomSelection();
     gameState.remainingTries--;
+    
+    // Seçilen ülkeyi kaydet
+    gameState.selectedCountries.push(selectedCountry);
     
     // Bayrak güncelleme
     flagContainer.style.backgroundImage = `url(https://flagcdn.com/w320/${selectedCountry.code}.png)`;
@@ -207,10 +211,56 @@ restartButton.addEventListener('click', () => {
     // Son hak kontrolü
     if (gameState.remainingTries === 0) {
         setTimeout(() => {
-            alert('Tüm haklarınız bitti! Sayfayı yenileyerek yeni bir oyuna başlayabilirsiniz.');
+            showResults();
         }, 500);
     }
 });
+
+// Sonuçları gösteren fonksiyon
+function showResults() {
+    // Mevcut ülke bilgilerini gizle
+    countryInfo.style.display = 'none';
+    
+    // Sonuç container'ını oluştur
+    const resultContainer = document.createElement('div');
+    resultContainer.className = 'results-container';
+    
+    // Başlık
+    const title = document.createElement('h2');
+    title.textContent = 'sonuçlar:';
+    resultContainer.appendChild(title);
+    
+    // Ülkeler container'ı
+    const countriesContainer = document.createElement('div');
+    countriesContainer.className = 'countries-grid';
+    
+    // Her ülke için kart oluştur
+    gameState.selectedCountries.forEach(country => {
+        const countryCard = document.createElement('div');
+        countryCard.className = 'country-card';
+        
+        const flag = document.createElement('div');
+        flag.className = 'flag';
+        flag.style.backgroundImage = `url(https://flagcdn.com/w320/${country.code}.png)`;
+        
+        const name = document.createElement('div');
+        name.className = 'country-name';
+        name.textContent = country.name;
+        
+        countryCard.appendChild(flag);
+        countryCard.appendChild(name);
+        countriesContainer.appendChild(countryCard);
+    });
+    
+    resultContainer.appendChild(countriesContainer);
+    
+    // Sonuç div'ini temizle ve yeni içeriği ekle
+    resultDiv.innerHTML = '';
+    resultDiv.appendChild(resultContainer);
+    
+    // Sonuç div'ini göster
+    resultDiv.style.display = 'block';
+}
 
 // İlk oyun durumunu göster
 updateGameState(); 
