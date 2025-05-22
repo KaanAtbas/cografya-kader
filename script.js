@@ -138,8 +138,7 @@ const countries = [
 
 // Oyun durumu
 let gameState = {
-    remainingTries: 3,
-    selectedCountries: new Set()
+    remainingTries: 3
 };
 
 // Toplam dünya nüfusu
@@ -147,25 +146,17 @@ const totalPopulation = countries.reduce((sum, country) => sum + country.populat
 
 // Nüfusa göre ağırlıklı rastgele seçim fonksiyonu
 function weightedRandomSelection() {
-    const availableCountries = countries.filter(country => !gameState.selectedCountries.has(country.name));
-    if (availableCountries.length === 0) {
-        return null; // Tüm ülkeler seçilmiş
-    }
-
-    // Sadece seçilmemiş ülkelerin toplam nüfusunu hesapla
-    const availablePopulation = availableCountries.reduce((sum, country) => sum + country.population, 0);
-    const random = Math.random() * availablePopulation;
+    const random = Math.random() * totalPopulation;
     let cumulativeWeight = 0;
 
-    for (const country of availableCountries) {
+    for (const country of countries) {
         cumulativeWeight += country.population;
         if (random <= cumulativeWeight) {
             return country;
         }
     }
 
-    // Bu satıra asla ulaşılmamalı, ama güvenlik için
-    return availableCountries[0];
+    return countries[0];
 }
 
 // DOM elementlerini seçme
@@ -197,14 +188,6 @@ restartButton.addEventListener('click', () => {
     }, 100);
 
     const selectedCountry = weightedRandomSelection();
-    
-    if (!selectedCountry) {
-        alert('Tüm ülkeler seçildi! Sayfayı yenileyerek yeni bir oyuna başlayabilirsiniz.');
-        return;
-    }
-
-    // Seçilen ülkeyi kaydet
-    gameState.selectedCountries.add(selectedCountry.name);
     gameState.remainingTries--;
     
     // Bayrak güncelleme
