@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coğrafya Kaderdir</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>COĞRAFYA KADERDİR</h1>
+        <div class="game-container">
+            <div class="tries-display">KALAN HAK: <span id="tries">3</span></div>
+            <button id="restartButton">YENİ ÜLKE SEÇ</button>
+            <div id="result" class="result"></div>
+            <div id="countryInfo" class="country-info" style="display: none;">
+                <div id="flagContainer" class="flag-container"></div>
+                <div class="details">
+                    <p><strong>Ülke:</strong> <span id="countryName"></span></p>
+                    <p><strong>Nüfus:</strong> <span id="population"></span></p>
+                    <p id="comment" class="comment"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 

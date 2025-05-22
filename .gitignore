@@ -1,0 +1,24 @@
+# Sistem dosyaları
+.DS_Store
+Thumbs.db
+
+# IDE/Editör dosyaları
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Log dosyaları
+*.log
+
+# Geçici dosyalar
+*.tmp
+*.temp
+
+# Yerel geliştirme dosyaları
+.env
+.env.local
+.env.*.local
+
+# Cache dosyaları
+.cache/ 
